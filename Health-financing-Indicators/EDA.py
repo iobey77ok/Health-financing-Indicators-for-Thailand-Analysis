@@ -149,11 +149,29 @@ df_percent.describe()
 create a visualization for EDA
 '''
 
+#%%
+df_numeric
+
 # %%
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# select only indicator CHE_pc
+# select indicator
+df_pvt = df[df['Indicator_name'] == 'PVT_pc']
+
+# create line plot
+plt.figure(figsize=(10,6))
+sns.lineplot(data=df_pvt, x='Year', y='Value_baht', marker='o')
+
+plt.title("Trend of Domestic Private Health Expenditure per Capita (2000–2022)")
+plt.xlabel("Year")
+plt.ylabel("Health Expenditure per Capita (THB)")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+
+# %%
 df_che = df[df['Indicator_name'] == 'CHE_pc']
 
 # create line plot
@@ -165,6 +183,38 @@ plt.xlabel("Year")
 plt.ylabel("Health Expenditure per Capita (THB)")
 plt.grid(True)
 plt.tight_layout()
+plt.show()
+
+# %%
+df_gghe = df[df['Indicator_name'] == 'GGHE_pc']
+
+# create line plot
+plt.figure(figsize=(10,6))
+sns.lineplot(data=df_gghe, x='Year', y='Value_baht', marker='o')
+
+plt.title("Trend of Domestic General Government Health Expenditure per Capita (2000–2022)")
+plt.xlabel("Year")
+plt.ylabel("Health Expenditure per Capita (THB)")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+#%%
+df_numeric.head()
+
+
+#%%
+
+df_2020 = df_numeric[(df_numeric["Year"] == 2020) &
+                     (df_numeric["Indicator_name"].isin(["GGHE_pc", "PVT_pc", "EXT_pc"]))]
+
+labels = df_2020["Indicator_name"]
+values = df_2020["Value_baht"]
+
+# create pie chart
+plt.figure(figsize=(6,6))
+plt.pie(values, labels=labels, autopct="%1.1f%%", startangle=90)
+plt.title("Health Spending Share in 2020 (COVID Period)")
 plt.show()
 
 
